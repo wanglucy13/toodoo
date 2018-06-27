@@ -11,10 +11,14 @@ import UIKit
 class ViewController: UITableViewController {
 
     var arr = ["Eat", "Sleep", "Poop"]
+    let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        if let items = defaults.array(forKey: "TodoListArray") as? [String] {
+            arr = items
+        }
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -46,6 +50,7 @@ class ViewController: UITableViewController {
             // once user clicks add item button
             if(textField.text != "") {
                 self.arr.append(textField.text!)
+                self.defaults.set(self.arr, forKey: "TodoListArray")
                 self.tableView.reloadData()
             }
         }
